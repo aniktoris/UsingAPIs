@@ -51,16 +51,18 @@ function renderError(err) {
   errorElement.innerText = err;
 }
 
-function main() {
+  function main() {
   const button = document.querySelector('#button');
-  button.addEventListener('click', () => {
+  button.addEventListener('click', async () => {
     const option = document.querySelector('#option');
     const url = option.checked ? INVALID_URL : VALID_URL;
 
-    fetchJSON(url)
-      .then((data) => renderResults(data))
-      .catch((error) => renderError(error));
-
+    try{
+      const data = await fetchJSON(url);
+      renderResults(data);
+    } catch(error) {
+      renderError(error);
+    }
     // Use `fetchJSON()` to fetch data from the selected url.
     // If successful, render the data by calling function `renderResults()`.
     // On failure, render the error by calling function `renderError()`.
